@@ -1,0 +1,87 @@
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="google-site-verification" content="UNRfpImcRQ3BIYIbiTDAv7O_9dJy-L3rcmWchHTi_Vc" />
+<meta name=”viewport” content=”width=device-width, initial-scale=1.0″ />
+<title>HTML Canvas Demo</title>
+
+<!-- CSS -->
+<style type="text/css">
+.swatch {
+   width: 50px;
+   height: 50px;
+   float: left;
+}
+</style>
+
+<!-- Javascript -->
+<script type="text/javascript">
+var color = 'black';
+
+function init()
+{
+   var enable_draw = false;
+   var canvas = document.getElementById('can');
+   ctx = canvas.getContext("2d");
+
+   ctx.canvas.width = window.innerWidth;
+   ctx.canvas.height = window.innerHeight - 100;
+
+   ctx.fillCircle = function(x, y, radius, fillColor) {
+      this.fillStyle = fillColor;
+      this.beginPath();
+      this.moveTo(x, y);
+      this.arc(x, y, radius, 0, Math.PI * 2, false);
+      this.fill();
+   };
+
+   canvas.addEventListener("mousemove", function (e) {
+      if (!enable_draw) {
+         return;
+      }
+
+      var currX = e.clientX - canvas.offsetLeft;
+      var currY = e.clientY - canvas.offsetTop;
+      var radius = 15;
+      ctx.fillCircle(currX, currY, radius, color);
+    }, false);
+
+    canvas.addEventListener("mousedown", function (e) {
+      enable_draw = true;
+    }, false);
+
+    canvas.addEventListener("mouseup", function (e) {
+      enable_draw = false;
+    }, false);
+}
+
+function ChangeColor(obj)
+{
+   color = obj.id;
+}
+
+function erase()
+{
+   var canvas = document.getElementById('can');
+   ctx = canvas.getContext("2d");
+   ctx.clearRect(0, 0, window.innerWidth, window.innerHeight - 100);
+}
+</script>
+</head>
+
+<!-- HTML -->
+<body onload="init()">
+   <canvas id="can"></canvas>
+   <br>
+   <input type="button" value="clear" onclick="erase()">
+   <br>
+   <div class="swatch" style="background:green;" id="green" onclick="ChangeColor(this)"></div>
+   <div class="swatch" style="background:blue;" id="blue" onclick="ChangeColor(this)"></div>
+   <div class="swatch" style="background:red;" id="red" onclick="ChangeColor(this)"></div>
+   <div class="swatch" style="background:yellow;" id="yellow" onclick="ChangeColor(this)"></div>
+   <div class="swatch" style="background:orange;" id="orange" onclick="ChangeColor(this)"></div>
+   <div class="swatch" style="background:black;" id="black" onclick="ChangeColor(this)"></div>
+   <div class="swatch" style="background:white; border:1px solid;" id="white" onclick="ChangeColor(this)"></div>
+</body>
+</html>
+
