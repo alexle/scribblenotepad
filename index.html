@@ -61,6 +61,7 @@ function init()
 
    // Define mobile events
    canvas.addEventListener("touchmove", function (e) {
+      event.preventDefault();
       if (!enable_draw) {
          return;
       }
