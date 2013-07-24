@@ -1,13 +1,17 @@
 <html>
 <head>
 <meta charset="utf-8">
-<meta name="google-site-verification" content="UNRfpImcRQ3BIYIbiTDAv7O_9dJy-L3rcmWchHTi_Vc" />
 <meta name=”viewport” content=”width=device-width, initial-scale=1.0″ />
 <title>HTML Canvas Demo</title>
 
 <!-- CSS -->
 <style type="text/css">
 .swatch {
+   width: 50px;
+   height: 50px;
+   float: left;
+}
+.clear_btn {
    width: 50px;
    height: 50px;
    float: left;
@@ -35,6 +39,7 @@ function init()
       this.fill();
    };
 
+   // Define desktop events
    canvas.addEventListener("mousemove", function (e) {
       if (!enable_draw) {
          return;
@@ -51,6 +56,26 @@ function init()
     }, false);
 
     canvas.addEventListener("mouseup", function (e) {
+      enable_draw = false;
+    }, false);
+
+   // Define mobile events
+   canvas.addEventListener("touchmove", function (e) {
+      if (!enable_draw) {
+         return;
+      }
+
+      var currX = e.clientX - canvas.offsetLeft;
+      var currY = e.clientY - canvas.offsetTop;
+      var radius = 15;
+      ctx.fillCircle(currX, currY, radius, color);
+    }, false);
+
+    canvas.addEventListener("touchstart", function (e) {
+      enable_draw = true;
+    }, false);
+
+    canvas.addEventListener("touchend", function (e) {
       enable_draw = false;
     }, false);
 }
@@ -73,8 +98,7 @@ function erase()
 <body onload="init()">
    <canvas id="can"></canvas>
    <br>
-   <input type="button" value="clear" onclick="erase()">
-   <br>
+   <input type="button" class="clear_btn" value="clear" onclick="erase()" />
    <div class="swatch" style="background:green;" id="green" onclick="ChangeColor(this)"></div>
    <div class="swatch" style="background:blue;" id="blue" onclick="ChangeColor(this)"></div>
    <div class="swatch" style="background:red;" id="red" onclick="ChangeColor(this)"></div>
